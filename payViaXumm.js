@@ -9,11 +9,25 @@ fetch("https://pay.xumm.community/button.html").then(response => {
 });
 
 function payViaXumm() {
-    fetch('https://api.xumm.community/api/v1/initiate/simplePayment/')
-    .then(function (response) { return response.json(); }).then(function (xummResponse) {
-        if(xummResponse && xummResponse.next &&xummResponse.next.always)
-            window.location.href = xummResponse.next.always;
-        else
-            console.log(JSON.stringify(xummResponse));
-    });
+    try {
+        console.log("requesting payment via XUMM")
+        fetch('https://api.xumm.community/api/v1/initiate/simplePayment/')
+        .then(function (response) { 
+            if(response.ok)
+                return response.json();
+            else {
+                console.log("xumm payment request not ok");
+                console.log(response);
+            };
+        }).then(function (xummResponse) {
+            console.log("Called xumm and got a response: " + JSON.stringify(xummResponse));
+            if(xummResponse && xummResponse.next &&xummResponse.next.always)
+                window.location.href = xummResponse.next.always;
+            else
+                console.log(JSON.stringify(xummResponse));
+        });
+    } catch(err) {
+        console.log("something went wrong while requesting payment: ");
+        console.log(JSON.stringify(err));
+    }
 };
