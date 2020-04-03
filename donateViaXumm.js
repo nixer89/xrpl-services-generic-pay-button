@@ -1,14 +1,14 @@
 
-fetch("https://pay.xumm.community/button.html").then(response => {
+fetch("https://donate.xumm.community/button.html").then(response => {
     return response.text();
 }).then(data => {   
-    var elements = document.getElementsByClassName('xumm-pay-button');
+    var elements = document.getElementsByClassName('xumm-donate-button');
 
     for(var i = 0; i < elements.length; i++)
         elements[i].innerHTML = data;
 });
 
-function payViaXumm() {
+function donateViaXumm() {
     try {
         console.log("requesting payment via XUMM")
         fetch('https://api.xumm.community/api/v1/initiate/simplePayment/')
